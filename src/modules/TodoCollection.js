@@ -24,7 +24,7 @@ export default class TodoCollection {
       if (this.todos[i].index === index) {
         this.todos[i].description = description;
         this.setToLocalStorage();
-        break;
+        return;
       }
     }
   }
