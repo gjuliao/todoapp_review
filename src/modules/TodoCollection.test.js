@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import { TodoCollection } from './util.js';
 import 'jest-localstorage-mock';
 
@@ -38,5 +41,34 @@ describe('Testing add to collection', () => {
     myList.addTodo('Todo Testing');
     myList.removeTodo(0);
     expect(localStorage.getItem('todos')).toBe(JSON.stringify(myList.todos));
+  });
+
+  test('dom element added for each item', () => {
+    myList.todos = [];
+    myList.addTodo('Todo Testing');
+    document.body.innerHTML = `
+    <div>
+    <ul id="todos"></ul>
+    </div>
+    `;
+    displayTodos(myList);
+    const list = document.querySelectorAll('.todo');
+    expect(list.length).toBe(myList.todos.length);
+  });
+
+  test('dom element removed for each item', () => {
+    myList.todos = [];
+    myList.addTodo('Todo Testing 1');
+    myList.addTodo('Todo Testing 2');
+    myList.addTodo('Todo Testing 3');
+    myList.removeTodo(1);
+    document.body.innerHTML = `
+    <div>
+    <ul id="todos"></ul>
+    </div>
+    `;
+    displayTodos(myList);
+    const list = document.querySelectorAll('.todo');
+    expect(list.length).toBe(myList.todos.length);
   });
 });
