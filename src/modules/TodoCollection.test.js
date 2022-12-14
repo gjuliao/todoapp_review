@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import displayTodos from './displayTodoUtil.js';
 import { TodoCollection } from './util.js';
 import 'jest-localstorage-mock';
 
