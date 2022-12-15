@@ -93,4 +93,21 @@ describe('Testing add to collection', () => {
     const temp = JSON.parse(localStorage.getItem('todos'));
     expect(temp[0].description).toEqual(myList.todos[0].description);
   });
+
+  test('test of updating item complete status', () => {
+    myList.todos = [];
+    myList.addTodo('Todo Testing 1');
+    const { index } = myList.todos[0];
+    myList.markAsCompleted(index);
+    expect(myList.todos[0].completed).toBeTruthy();
+  });
+
+  test('test of updating item from complete to not completed', () => {
+    myList.todos = [];
+    myList.addTodo('Todo Testing 1');
+    const { index } = myList.todos[0];
+    myList.markAsCompleted(index);
+    myList.markAsCompleted(index);
+    expect(myList.todos[0].completed).not.toBeTruthy();
+  });
 });
