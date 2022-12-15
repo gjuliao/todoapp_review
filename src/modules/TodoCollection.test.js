@@ -153,14 +153,33 @@ describe('Clear all completed tasks', () => {
 
   test('Remove all completed from localStorage', () => {
     myList.todos = [];
-    myList.addTodo('Todo Testing 1'); // index 1
-    myList.addTodo('Todo Testing 2'); // index 2
-    myList.addTodo('Todo Testing 3'); // index 3
-    myList.addTodo('Todo Testing 4'); // index 4
+    myList.addTodo('Todo Testing 1');
+    myList.addTodo('Todo Testing 2');
+    myList.addTodo('Todo Testing 3');
+    myList.addTodo('Todo Testing 4');
     myList.markAsCompleted(1);
     myList.markAsCompleted(3);
     myList.clearCompleted();
     const temp = JSON.parse(localStorage.getItem('todos'));
     expect(temp).toEqual([{ completed: false, description: 'Todo Testing 2', index: 1 }, { completed: false, description: 'Todo Testing 4', index: 2 }]);
+  });
+
+  test('dom element removed after clearing', () => {
+    myList.todos = [];
+    myList.addTodo('Todo Testing 1');
+    myList.addTodo('Todo Testing 2');
+    myList.addTodo('Todo Testing 3');
+    myList.addTodo('Todo Testing 4');
+    myList.markAsCompleted(1);
+    myList.markAsCompleted(3);
+    myList.clearCompleted();
+    document.body.innerHTML = `
+    <div>
+    <ul id='todos'></ul>
+    </div>
+    `;
+    displayTodos(myList);
+    const list = document.querySelectorAll('.todo');
+    expect(list.length).toBe(myList.todos.length);
   });
 });
