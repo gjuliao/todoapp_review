@@ -26,6 +26,7 @@ describe('Testing add to collection', () => {
     myList.removeTodo(0);
     expect(myList.todos.length).toBe(0);
   });
+  
   test('delete specific item from collection', () => {
     myList.todos = [];
     myList.addTodo('Todo Testing 0');
@@ -47,6 +48,7 @@ describe('Testing add to collection', () => {
   test('dom element added for each item', () => {
     myList.todos = [];
     myList.addTodo('Todo Testing');
+    myList.addTodo('Todo Testing 2');
     document.body.innerHTML = `
     <div>
     <ul id="todos"></ul>
@@ -71,5 +73,24 @@ describe('Testing add to collection', () => {
     displayTodos(myList);
     const list = document.querySelectorAll('.todo');
     expect(list.length).toBe(myList.todos.length);
+  });
+
+  test('test to edit task description', () => {
+    myList.todos = [];
+    myList.addTodo('Todo Testing 1');
+    const { index } = myList.todos[0];
+    const description = 'Editing todo test 1';
+    myList.updateDescription(index, description);
+    expect(myList.todos[0].description).toBe(description);
+  });
+
+  test('If updated was edited in localstorage', () => {
+    myList.todos = [];
+    myList.addTodo('Todo Testing 1');
+    const { index } = myList.todos[0];
+    const description = 'Editing todo test 1';
+    myList.updateDescription(index, description);
+    const temp = JSON.parse(localStorage.getItem('todos'));
+    expect(temp[0].description).toEqual(myList.todos[0].description);
   });
 });
